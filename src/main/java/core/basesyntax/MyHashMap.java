@@ -28,10 +28,6 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         table = (Node<K, V>[]) new Node[capacity];
     }
 
-    private void recountThreshold() {
-        threshold = (int) (capacity * LOAD_FACTOR);
-    }
-
     private void resize() {
         capacity *= 2;
         threshold = (int) (capacity * LOAD_FACTOR);
