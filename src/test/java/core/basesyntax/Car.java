@@ -34,14 +34,21 @@ public class Car {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return Objects.equals(model, car.model) &&
-                Objects.equals(color, car.color);
+        if (o == null) return false;
+        if (o.getClass().equals(Car.class)) {
+            Car car = (Car) o;
+            return Objects.equals(this.model, car.model)
+                    && Objects.equals(this.color, car.color);
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(model, color);
+        int result = 17;
+        result = 31 * result + (model == null ? 0 : model.hashCode());
+        result = 31 * result + (color == null ? 0 : color.hashCode());
+
+        return result;
     }
 }
