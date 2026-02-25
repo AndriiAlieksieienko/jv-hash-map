@@ -3,6 +3,8 @@ package core.basesyntax;
 import java.util.Objects;
 
 public class Car {
+    private static final int INITIAL_HASH = 17;
+    private static final int MULTIPLIER = 31;
 
     private String model;
     private String color;
@@ -45,9 +47,9 @@ public class Car {
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + (model == null ? 0 : model.hashCode());
-        result = 31 * result + (color == null ? 0 : color.hashCode());
+        int result = INITIAL_HASH;
+        result = MULTIPLIER * result + (model == null ? 0 : model.hashCode());
+        result = MULTIPLIER * result + (color == null ? 0 : color.hashCode());
 
         return result;
     }
