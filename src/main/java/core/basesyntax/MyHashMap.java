@@ -1,6 +1,7 @@
 package core.basesyntax;
 
 public class MyHashMap<K, V> implements MyMap<K, V> {
+    private static final int DEFAULT_CAPACITY = 16;
     private static final double LOAD_FACTOR = 0.75;
     private int capacity;
     private int size;
@@ -8,44 +9,10 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
     private Node<K, V>[] table;
 
-    private static class Node<K, V> {
-        private final int hash;
-        private final K key;
-        private V value;
-        private Node<K, V> next;
-
-        Node(int hash, K key, V value, Node<K, V> next) {
-            this.hash = hash;
-            this.key = key;
-            this.value = value;
-            this.next = next;
-        }
-    }
-
     public MyHashMap() {
-        capacity = 16;
+        capacity = DEFAULT_CAPACITY;
         threshold = (int) (capacity * LOAD_FACTOR);
         table = (Node<K, V>[]) new Node[capacity];
-    }
-
-    private void resize() {
-        capacity *= 2;
-        threshold = (int) (capacity * LOAD_FACTOR);
-
-        Node<K, V>[] oldTable = table;
-        table = (Node<K, V>[]) new Node[capacity];
-
-        for (Node<K, V> head : oldTable) {
-            while (head != null) {
-                Node<K, V> next = head.next;
-
-                int index = head.hash & (capacity - 1);
-                head.next = table[index];
-                table[index] = head;
-
-                head = next;
-            }
-        }
     }
 
     @Override
@@ -94,5 +61,39 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     @Override
     public int getSize() {
         return size;
+    }
+
+    private void resize() {
+        capacity *= 2;
+        threshold = (int) (capacity * LOAD_FACTOR);
+
+        Node<K, V>[] oldTable = table;
+        table = (Node<K, V>[]) new Node[capacity];
+
+        for (Node<K, V> head : oldTable) {
+            while (head != null) {
+                Node<K, V> next = head.next;
+
+                int index = head.hash & (capacity - 1);
+                head.next = table[index];
+                table[index] = head;
+
+                head = next;
+            }
+        }
+    }
+
+    private static class Node<K, V> {
+        private final int hash;
+        private final K key;
+        private V value;
+        private Node<K, V> next;
+
+        private Node(int hash, K key, V value, Node<K, V> next) {
+            this.hash = hash;
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
     }
 }
